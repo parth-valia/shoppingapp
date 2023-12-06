@@ -88,4 +88,5 @@ export const styles = StyleSheet.create({
     color: Colors.nevada,
     marginVertical: 10,
   },
+  favouriteContainer: {position: 'absolute', zIndex: 20, top: 25, right: 25},
 });

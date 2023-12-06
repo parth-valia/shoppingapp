@@ -51,7 +51,8 @@ export const HomeScreen: React.FC<{}> = ({}) => {
   const [showDeliveryDropDown, setShowDeliveryDropDown] = useState(false);
   const [products, setProducts] = useState([]);
 
-  const {cartData, setCartData} = useContext(CartContext);
+  const {cartData, setCartData, favouriteData, setFavouriteData} =
+    useContext(CartContext);
 
   useEffect(() => {
     getProducts();
@@ -76,6 +77,22 @@ export const HomeScreen: React.FC<{}> = ({}) => {
     navigation.navigate(ROUTES.HOME_STACK, {
       screen: ROUTES.CART_SCREEN,
     });
+  };
+
+  const handleFavourite = (item: any) => {
+    const index = favouriteData.findIndex(
+      favouriteItem => favouriteItem.id === item.id,
+    );
+    if (index >= 0) {
+      const updatedFavourite = [...favouriteData];
+      updatedFavourite[index] = {
+        ...updatedFavourite[index],
+        favourite: !updatedFavourite[index].favourite,
+      };
+      setFavouriteData(updatedFavourite);
+    } else {
+      setFavouriteData([...favouriteData, {...item, favourite: true}]);
+    }
   };
 
   return (
@@ -149,6 +166,9 @@ export const HomeScreen: React.FC<{}> = ({}) => {
                   product={item}
                   onAddToCartPress={() => {
                     handleAddToCart(item);
+                  }}
+                  onFavoritesPress={() => {
+                    handleFavourite(item);
                   }}
                   onProductPress={() => {
                     navigation.navigate(ROUTES.HOME_STACK, {
